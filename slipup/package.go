@@ -30,3 +30,9 @@ func NotImplementedf(tpl string, v ...any) error {
 func NeedsErrorHandling(e error) {
 	panic(Describe(e, "needs error handling"))
 }
+
+func PanicOnError(e error) {
+	if e != nil {
+		panic(e)
+	}
+}
