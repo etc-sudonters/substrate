@@ -1,0 +1,28 @@
+name: Test Branch
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+concurrency:
+  group: branch-test-${{ github.head_ref }}
+  cancel-in-progress: true
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-go@v6
+        with:
+          go-version-file: "go.mod"
+      - shell: bash
+        run: |
+          go install honnef.co/go/tools/cmd/staticcheck@latest || exit 2
+          exec go vet ./...
+      - shell: bash
+        if: ${{ !cancelled() }}
+        run: exec staticcheck ./...
+      - shell: bash
+        if: ${{ !cancelled() }}
+        run: exec go test -race -vet=off ./...

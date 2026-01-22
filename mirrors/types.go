@@ -3,12 +3,11 @@ package mirrors
 import "reflect"
 
 func T[T any]() reflect.Type {
-    return TypeOf[T]()
+	return reflect.TypeFor[T]()
 }
 
 func TypeOf[T any]() reflect.Type {
-	var t T
-	return reflect.TypeOf(t)
+	return reflect.TypeFor[T]()
 }
 
 func Empty[T any]() T {
