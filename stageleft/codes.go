@@ -31,19 +31,14 @@ func AsExitCode(r interface{}, exit ExitCode) ExitCode {
 	switch r := r.(type) {
 	case ExitCode:
 		exit = r
-		break
 	case *ExitCode:
 		exit = *r
-		break
 	case ExitCodeError:
 		exit = r.Code
-		break
 	case error:
 		exit = ExitCodeFromErr(r, exit)
-		break
 	case uint8:
 		exit = ExitCode(r)
-		break
 	}
 
 	return exit

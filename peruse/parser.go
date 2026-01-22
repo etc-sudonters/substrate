@@ -77,7 +77,6 @@ type Parser[T any] struct {
 	g         Grammar[T]
 	l         *StringLexer
 	Cur, Next Token
-	empty     T
 }
 
 func (p *Parser[T]) HasMore() bool {

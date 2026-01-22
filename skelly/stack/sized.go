@@ -20,19 +20,19 @@ type Sized[T any] struct {
 	ptr   int
 }
 
-func (this *Sized[T]) reset() {
+func (this *Sized[T]) Reset() {
 	this.ptr = 0
 }
 
-func (this *Sized[T]) slice(start, count int) []T {
+func (this *Sized[T]) Slice(start, count int) []T {
 	return this.items[start : start+count]
 }
 
-func (this *Sized[T]) popN(n int) {
+func (this *Sized[T]) PopN(n int) {
 	this.ptr -= n
 }
 
-func (this *Sized[T]) top() T {
+func (this *Sized[T]) Top() T {
 	if this.ptr < 1 {
 		panic(ErrStackEmpty)
 	}
@@ -40,7 +40,7 @@ func (this *Sized[T]) top() T {
 	return this.items[this.ptr-1]
 }
 
-func (this *Sized[T]) push(item T) {
+func (this *Sized[T]) Push(item T) {
 	if this.ptr == len(this.items) {
 		panic(ErrStackFull)
 	}
@@ -49,7 +49,7 @@ func (this *Sized[T]) push(item T) {
 	this.ptr++
 }
 
-func (this *Sized[T]) pop() T {
+func (this *Sized[T]) Pop() T {
 	if this.ptr == 0 {
 		panic(ErrStackEmpty)
 	}

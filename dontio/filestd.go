@@ -6,8 +6,6 @@ import (
 	"path/filepath"
 )
 
-type FileStdFlags uint64
-
 // populates the passed *Std with files for out, err the returned cleanup
 // function will never be nil and must always be called
 func FileStd(std *Std, dir string) (func(), error) {
@@ -36,5 +34,4 @@ func FileStd(std *Std, dir string) (func(), error) {
 	std.Out = opened[0]
 	std.Err = opened[1]
 	return cleanup, nil
-
 }

@@ -14,8 +14,8 @@ func TestSetsBits(t *testing.T) {
 
 	numbers := []uint32{
 		1,
+		33,
 		65,
-		129,
 	}
 
 	b := Bitset{}
@@ -34,11 +34,11 @@ func TestClearsBits(t *testing.T) {
 	expected := []uint32{2, 0, 2}
 
 	b := Bitset{}
-	numbers := []uint32{1, 65, 129}
+	numbers := []uint32{1, 33, 65}
 	for i := range numbers {
 		b.Set(numbers[i])
 	}
-	b.Unset(65)
+	b.Unset(33)
 
 	for i := range expected {
 		if expected[i] != b.buckets[i] {
@@ -56,13 +56,13 @@ func TestTestBits(t *testing.T) {
 		t.Fail()
 	}
 
-	if !b.IsSet(65) {
-		t.Log("expected 65 to be set")
+	if !b.IsSet(33) {
+		t.Log("expected 33 to be set")
 		t.Fail()
 	}
 
-	if !b.IsSet(129) {
-		t.Log("expected 129 to be set")
+	if !b.IsSet(65) {
+		t.Log("expected 65 to be set")
 		t.Fail()
 	}
 }
@@ -70,8 +70,8 @@ func TestTestBits(t *testing.T) {
 func TestComplement(t *testing.T) {
 	b := Bitset{}
 	b.Set(1)
+	b.Set(33)
 	b.Set(65)
-	b.Set(129)
 
 	comp := b.Complement().buckets
 	expected := maxU ^ 2
@@ -85,7 +85,7 @@ func TestIntersect(t *testing.T) {
 	b1 := Bitset{}
 	b2 := Bitset{}
 
-	shared := []uint32{1, 65, 129}
+	shared := []uint32{1, 33, 65}
 	b1.Set(144)
 	b2.Set(13)
 
@@ -107,8 +107,8 @@ func TestUnion(t *testing.T) {
 	b3 := Bitset{}
 
 	b1.Set(1)
-	b2.Set(65)
-	b3.Set(129)
+	b2.Set(33)
+	b3.Set(65)
 
 	b := b1.Union(b2).Union(b3)
 
@@ -122,9 +122,9 @@ func TestDifference(t *testing.T) {
 	b2 := Bitset{}
 
 	b1.Set(1)
-	b1.Set(65)
+	b1.Set(33)
+	b2.Set(33)
 	b2.Set(65)
-	b2.Set(129)
 
 	b1DiffB2 := b1.Difference(b2)
 	expected := FromRaw([]uint32{2, 0, 0})
@@ -138,7 +138,7 @@ func TestDifference(t *testing.T) {
 	expected = FromRaw([]uint32{0, 0, 2})
 
 	if !b2DiffB1.Eq(expected) {
-		t.Log("expected only 129 to be set")
+		t.Log("expected only 65 to be set")
 		t.Fail()
 	}
 }
@@ -146,10 +146,10 @@ func TestDifference(t *testing.T) {
 func TestElems(t *testing.T) {
 	b := Bitset{}
 	b.Set(1)
+	b.Set(33)
 	b.Set(65)
-	b.Set(129)
 
-	expected := []uint32{1, 65, 129}
+	expected := []uint32{1, 33, 65}
 	elems := b.Elems()
 
 	if len(expected) != len(elems) {
